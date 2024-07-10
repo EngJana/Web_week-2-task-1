@@ -18,16 +18,16 @@ Create database - robot_control
 -	CSS
 -	PHP
 3.	Run a local server:
-    - Use a local server environment like XAMPP
-    - Place the project files in the server's root directory.
+- Use a local server environment like XAMPP
+- Place the project files in the server's root directory.
 4.	Open the HTML file in a browser:
-    - Navigate to `http://localhost/robot-control/index.html`.
+- Navigate to `http://localhost/robot-control/index.html`.
 
 ## Code Explanation
 
 ### HTML
 
-<!DOCTYPE html>
+[ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -71,7 +71,7 @@ Create database - robot_control
         }
     </script>
 </body>
-</html>
+</html> ]
 
 #### HTML Structure
   - The HTML file sets up the basic structure of the webpage, including the `head` section for metadata and `body` for content.
