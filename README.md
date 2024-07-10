@@ -26,90 +26,17 @@ Create database - robot_control
 ## Code Explanation
 
 ### HTML
+<img width="490" alt="html1" src="https://github.com/EngJana/Web_week-2-task-1/assets/173661625/11fd189c-0344-41f0-9fee-9c72fdbb3758">
+<img width="431" alt="html2" src="https://github.com/EngJana/Web_week-2-task-1/assets/173661625/dd459110-b32c-4fee-92a0-6f22ba820b6b">
 
-[ <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robot Control</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1>Control Your Robot</h1>
-    <div class="controls">
-        <button onclick="sendCommand('forward')">Forward</button>
-        <button onclick="sendCommand('left')">Left</button>
-        <button onclick="sendCommand('right')">Right</button>
-        <button onclick="sendCommand('backward')">Backward</button>
-        <button onclick="sendCommand('stop')">Stop</button>
-    </div>
-
-    <script>
-        function sendCommand(command) {
-            const data = { direction: command };
-            const jsonData = JSON.stringify(data);
-
-            fetch('send_command.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: jsonData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert('Command sent successfully!');
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch((error) => {
-                alert('Error sending command: ' + error.message);
-            });
-        }
-    </script>
-</body>
-</html> ]
 
 #### HTML Structure
   - The HTML file sets up the basic structure of the webpage, including the `head` section for metadata and `body` for content.
   - It includes buttons for each robot command and a script to handle button clicks.
 
 ### CSS
+<img width="293" alt="css" src="https://github.com/EngJana/Web_week-2-task-1/assets/173661625/c58155e9-b5d7-4c14-861a-6f38b6e8135b">
 
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin-top: 50px;
-}
-
-h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-.controls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    border: none;
-    background-color: #007BFF;
-    color: white;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
 
 #### CSS Styling
   - Defines the styling for the page, including font, text alignment, and button styles.
@@ -119,51 +46,9 @@ button:hover {
 
 
 ### PHP
+<img width="623" alt="php1" src="https://github.com/EngJana/Web_week-2-task-1/assets/173661625/26ffada4-b5b8-427a-90a6-eab5a0dfda20">
+<img width="575" alt="php2" src="https://github.com/EngJana/Web_week-2-task-1/assets/173661625/57f4de96-6db9-4499-b1cd-4791b379a6c2">
 
-<?php
-// Set the content type to application/json
-header('Content-Type: application/json');
-
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "robot_control";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die(json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]));
-}
-
-// Get the data from the POST request
-$data = json_decode(file_get_contents('php://input'), true);
-
-// Check if the 'direction' field is set
-if (!isset($data['direction'])) {
-    echo json_encode(["status" => "error", "message" => "Missing 'direction' field"]);
-    exit();
-}
-
-$direction = $data['direction'];
-
-// Prepare and bind
-$stmt = $conn->prepare("INSERT INTO robot_control (direction, timestamp) VALUES (?, NOW())");
-$stmt->bind_param("s", $direction);
-
-// Execute the statement
-if ($stmt->execute()) {
-    echo json_encode(["status" => "success", "message" => "Command '$direction' received"]);
-} else {
-    echo json_encode(["status" => "error", "message" => "Error: " . $stmt->error]);
-}
-
-// Close the connection
-$stmt->close();
-$conn->close();
-?>
 
 #### PHP Script
   - `send_command.php` handles the incoming POST request, checks the data, and inserts it into the `robot_control` database table.
