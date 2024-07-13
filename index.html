@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Control</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Control Your Robot</h1>
+    <div class="controls">
+        <button onclick="sendCommand('forward')">Forward</button>
+        <button onclick="sendCommand('left')">Left</button>
+        <button onclick="sendCommand('right')">Right</button>
+        <button onclick="sendCommand('backward')">Backward</button>
+        <button onclick="sendCommand('stop')">Stop</button>
+    </div>
+
+    <script>
+        function sendCommand(command) {
+            const data = { direction: command };
+            const jsonData = JSON.stringify(data);
+            
+            fetch('send_command.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Command sent successfully!');
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch((error) => {
+                alert('Error sending command: ' + error.message);
+            });
+        }
+    </script>
+</body>
+</html>
